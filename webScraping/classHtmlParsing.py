@@ -32,35 +32,47 @@ middle_HTML = '''<html><head></head><body>
 
 </body></html>
 '''
+
+class Locators:
+
+    name_location='article.product_pod h3 a'
+    link_location='article.product_pod h3 a'
+    price_location='article.product_pod p.price_color'
+    rating_location= 'article.product_pod p.star-rating'
+
 class Parsing:
     def __init__(self,page):
         self.soup= BeautifulSoup(page,'html.parser')
 
-    def find_item_name(self):
-        loc='article.product_pod h3 a'   #using the relative postion of the info
+    @property
+    def name(self):
+        loc= Locators.name_location  #using the relative postion of the info
         item_link= self.soup.select_one(loc)
         item_name= item_link.attrs['title']
         return item_name
 
-    def find_link(self):
-        loc='article.product_pod h3 a'
+    @property
+    def link(self):
+        loc=Locators.link_location
         item_link= self.soup.select_one(loc)
         item=item_link.attrs['href']
         return item
 
-    def find_price(self):
-        loc = 'article.product_pod p.price_color'
+    @property
+    def price(self):
+        loc = Locators.price_location
         itemprice =  self.soup.select_one(loc).string
         pattern = '\$([0-9]+\.[0-9]+)'
         match = re.search(pattern, itemprice)
         return float(match.group(1))
 
-    def find_rating(self):
-        loc = 'article.product_pod p.star-rating'
+    @property
+    def rating(self):
+        loc =Locators.rating_location
         rating_tag = self.soup.select_one(loc)
         classes = rating_tag.attrs['class']
         rating_class = [i for i in classes if i != 'star-rating']
         return rating_class[0]
 
 item = Parsing(middle_HTML)
-print(item.find_item_name())
+print(item.name)

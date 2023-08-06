@@ -7,7 +7,7 @@ class BookParser:
         self.parent=parent
 
     def __repr__(self):
-        return f'Book {self.title}, Has {self.rating} star rating and is of {self.price}'
+        return f'Book: {self.title}, Rating: {self.rating} star rating, Price: £{self.price}'
 
     rating_number={'One':1,'Two':2,'Three':3,"Four":4,'Five':5}
 
